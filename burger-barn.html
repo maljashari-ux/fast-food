@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger Barn | Premium Fast Food</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff6b35;
+            --secondary: #f7c531;
+            --dark: #1a1a1a;
+            --light: #fffef8;
+            --accent: #e63946;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: var(--dark);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: var(--primary);
+            letter-spacing: 3px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .cart-btn {
+            background: var(--primary);
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            color: #fff !important;
+            font-weight: 600;
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                        url('https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=1600') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .hero-content h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(3rem, 10vw, 7rem);
+            color: var(--secondary);
+            letter-spacing: 5px;
+            line-height: 1;
+            animation: slideIn 1s ease-out;
+        }
+
+        .hero-content h2 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #fff;
+            margin: 1rem 0 2rem;
+            animation: slideIn 1s ease-out 0.3s both;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: slideIn 1s ease-out 0.6s both;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Menu */
+        .menu {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3.5rem;
+            color: var(--dark);
+            letter-spacing: 3px;
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .menu-img {
+            height: 200px;
+            background: #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--accent);
+            color: #fff;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge.hot {
+            background: var(--accent);
+        }
+
+        .badge.new {
+            background: #2ecc71;
+        }
+
+        .badge.popular {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+
+        .menu-info {
+            padding: 1.5rem;
+        }
+
+        .menu-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .add-btn {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .add-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Featured */
+        .featured {
+            background: var(--dark);
+            padding: 5rem 2rem;
+        }
+
+        .featured .section-title h2 {
+            color: #fff;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .featured-item {
+            background: #2a2a2a;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            transition: transform 0.3s;
+        }
+
+        .featured-item:hover {
+            transform: scale(1.02);
+        }
+
+        .featured-img {
+            width: 150px;
+            min-height: 150px;
+            background: #444;
+        }
+
+        .featured-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-info {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .featured-info h3 {
+            color: var(--secondary);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        .featured-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin: 0.5rem 0 1rem;
+        }
+
+        /* Combos */
+        .combos {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+        }
+
+        .combos .section-title h2 {
+            color: var(--dark);
+        }
+
+        .combo-cards {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .combo-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            width: 300px;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .combo-card:hover {
+            transform: translateY(-15px);
+        }
+
+        .combo-card.featured-combo {
+            border: 3px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .combo-card.featured-combo:hover {
+            transform: scale(1.08);
+        }
+
+        .combo-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .combo-card h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .combo-items {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .combo-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .combo-price span {
+            font-size: 1rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        /* Reviews */
+        .reviews {
+            padding: 5rem 2rem;
+            background: var(--secondary);
+        }
+
+        .reviews .section-title h2 {
+            color: var(--dark);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .stars {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-card p {
+            color: #555;
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Order */
+        .order {
+            padding: 5rem 2rem;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .order h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            color: #fff;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .order p {
+            color: #aaa;
+            margin-bottom: 2rem;
+        }
+
+        .order-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .order-btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .order-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .order-btn.primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .order-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            background: #111;
+            padding: 3rem 2rem;
+            color: #888;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: var(--primary);
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            margin: 1.5rem 0;
+        }
+
+        .social-links a {
+            color: #888;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .hero-content h1 { font-size: 3rem; }
+            .featured-item { flex-direction: column; }
+            .featured-img { width: 100%; height: 200px; }
+            .combo-card.featured-combo { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BURGER<span>BARN</span></div>
+        <nav>
+            <ul>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#featured">Featured</a></li>
+                <li><a href="#combos">Combos</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#order" class="cart-btn">Order Now</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>TASTE THE FLAVOR</h1>
+            <h2>Premium Burgers & Fast Food</h2>
+            <a href="#menu" class="cta-btn">View Menu</a>
+        </div>
+    </section>
+
+    <section class="menu" id="menu">
+        <div class="section-title">
+            <h2>OUR <span>MENU</span></h2>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-img">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" alt="Classic Burger">
+                    <span class="badge popular">Popular</span>
+                </div>
+                <div class="menu-info">
+                    <h3>Classic Cheeseburger</h3>
+                    <p>Juicy beef patty with melted cheddar, lettuce, tomato & special sauce</p>
+                    <div class="price-row">
+                        <span class="price">$8.99</span>
+                        <button class="add-btn">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img">
+                    <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=500" alt="Double Burger">
+                    <span class="badge hot">Hot</span>
+                </div>
+                <div class="menu-info">
+                    <h3>Double Trouble</h3>
+                    <p>Two beef patties with double cheese, bacon, pickles & onions</p>
+                    <div class="price-row">
+                        <span class="price">$12.99</span>
+                        <button class="add-btn">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img">
+                    <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500" alt="Crispy Chicken">
+                </div>
+                <div class="menu-info">
+                    <h3>Crispy Chicken</h3>
+                    <p>Fried chicken breast with coleslaw, pickles & honey mustard</p>
+                    <div class="price-row">
+                        <span class="price">$9.99</span>
+                        <button class="add-btn">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img">
+                    <img src="https://images.unsplash.com/photo-1520072959219-c595dc870360?w=500" alt="Veggie Burger">
+                    <span class="badge new">New</span>
+                </div>
+                <div class="menu-info">
+                    <h3>Veggie Deluxe</h3>
+                    <p>Plant-based patty with avocado, sprouts & garlic aioli</p>
+                    <div class="price-row">
+                        <span class="price">$10.99</span>
+                        <button class="add-btn">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img">
+                    <img src="https://images.unsplash.com/photo-1612392062631-94dd858cba88?w=500" alt="Hot Dog">
+                </div>
+                <div class="menu-info">
+                    <h3>Classic Hot Dog</h3>
+                    <p>All-beef frank with mustard, ketchup & onions</p>
+                    <div class="price-row">
+                        <span class="price">$5.99</span>
+                        <button class="add-btn">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img">
+                    <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500" alt="Bacon Burger">
+                </div>
+                <div class="menu-info">
+                    <h3>Bacon BBQ</h3>
+                    <p>Beef patty with crispy bacon, cheddar, onion rings & BBQ sauce</p>
+                    <div class="price-row">
+                        <span class="price">$11.99</span>
+                        <button class="add-btn">Add +</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured" id="featured">
+        <div class="section-title">
+            <h2>FEATURED ITEMS</h2>
+        </div>
+        <div class="featured-grid">
+            <div class="featured-item">
+                <div class="featured-img">
+                    <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=500" alt="Loaded Fries">
+                </div>
+                <div class="featured-info">
+                    <h3>LOADED FRIES</h3>
+                    <p>Crispy fries topped with cheese, bacon & sour cream</p>
+                    <span class="price">$7.99</span>
+                </div>
+            </div>
+
+            <div class="featured-item">
+                <div class="featured-img">
+                    <img src="https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=500" alt="Chicken Wings">
+                </div>
+                <div class="featured-info">
+                    <h3>SPICY WINGS</h3>
+                    <p>8pc crispy wings with buffalo or BBQ sauce</p>
+                    <span class="price">$10.99</span>
+                </div>
+            </div>
+
+            <div class="featured-item">
+                <div class="featured-img">
+                    <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500" alt="Oreo Milkshake">
+                </div>
+                <div class="featured-info">
+                    <h3>OREO MILKSHAKE</h3>
+                    <p>Thick & creamy cookies & cream milkshake topped with whipped cream</p>
+                    <span class="price">$5.99</span>
+                </div>
+            </div>
+
+            <div class="featured-item">
+                <div class="featured-img">
+                    <img src="https://images.unsplash.com/photo-1639024471283-03518883512d?w=500" alt="Onion Rings">
+                </div>
+                <div class="featured-info">
+                    <h3>ONION RINGS</h3>
+                    <p>Beer-battered crispy onion rings with ranch dip</p>
+                    <span class="price">$5.99</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="combos" id="combos">
+        <div class="section-title">
+            <h2>MEAL <span>COMBOS</span></h2>
+        </div>
+        <div class="combo-cards">
+            <div class="combo-card">
+                <div class="combo-icon">🍔</div>
+                <h3>LUNCH COMBO</h3>
+                <p class="combo-items">Burger + Fries + Drink</p>
+                <div class="combo-price">$12.99</div>
+            </div>
+
+            <div class="combo-card featured-combo">
+                <span class="badge" style="position: absolute; top: -10px; right: -10px;">Best Value</span>
+                <div class="combo-icon">🍔🍟</div>
+                <h3>FAMILY PACK</h3>
+                <p class="combo-items">4 Burgers + 2 Large Fries + 4 Drinks</p>
+                <div class="combo-price">$39.99 <span>$52</span></div>
+            </div>
+
+            <div class="combo-card">
+                <div class="combo-icon">🍕</div>
+                <h3>STUDENT DEAL</h3>
+                <p class="combo-items">Any Burger + Small Fry + Drink</p>
+                <div class="combo-price">$9.99</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews" id="reviews">
+        <div class="section-title">
+            <h2>WHAT PEOPLE SAY</h2>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Best burgers in town! The bacon BBQ is absolutely amazing. Fast service and great staff!"</p>
+                <span class="reviewer">- John D.</span>
+            </div>
+
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"The family pack saved our weekend! Everyone loved their meal. Highly recommend!"</p>
+                <span class="reviewer">- Sarah M.</span>
+            </div>
+
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Love the loaded fries! Perfect crispy and the cheese is so gooey. Will come back for sure!"</p>
+                <span class="reviewer">- Mike R.</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="order" id="order">
+        <h2>READY TO ORDER?</h2>
+        <p>Order online or call us for fast delivery</p>
+        <div class="order-btns">
+            <a href="#" class="order-btn primary">Order Online</a>
+            <a href="#" class="order-btn secondary">Call Now</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">BURGER BARN</div>
+            <p>123 Fast Food Street, Flavor City, FC 12345</p>
+            <p>Open: Mon-Sun 10:00 AM - 10:00 PM</p>
+            <div class="social-links">
+                <a href="#">📘</a>
+                <a href="#">📸</a>
+                <a href="#">🐦</a>
+            </div>
+            <p>&copy; 2024 Burger Barn. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
